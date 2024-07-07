@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
 
-const socket = io('http://localhost:8080');
+const socket = io('https://messaging-socket-app-be.vercel.app');
 
 const ChatPage = ({ token }) => {
   const [messages, setMessages] = useState([]);
@@ -10,7 +10,7 @@ const ChatPage = ({ token }) => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await axios.get('http://localhost:8080/api/v1/getmessages');
+      const res = await axios.get('https://messaging-socket-app-be.vercel.app/api/v1/getmessages');
       setMessages(res.data);
     };
 
@@ -37,7 +37,7 @@ const ChatPage = ({ token }) => {
     };
 
     try {
-      await axios.post('http://localhost:8080/api/v1/sendMessage', newMsg, {
+      await axios.post('https://messaging-socket-app-be.vercel.app/api/v1/sendMessage', newMsg, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNewMessage('');

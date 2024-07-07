@@ -10,7 +10,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/api/v1/users/sign-up', { email , username, password });
+      await axios.post('https://messaging-socket-app-be.vercel.app/api/v1/users/sign-up', { email , username, password });
       alert('User registered');
       navigate('/login');
     } catch (error) {

@@ -10,7 +10,7 @@ const LoginPage = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8080/api/v1/users/login', { email, password });
+      const res = await axios.post('https://messaging-socket-app-be.vercel.app/api/v1/users/login', { email, password });
       setToken(res.data.data.accessToken);
       localStorage.setItem("token", res.data.data.accessToken)
       navigate('/');
