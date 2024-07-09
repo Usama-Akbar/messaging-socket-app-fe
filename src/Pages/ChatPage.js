@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
 
-const socket = io('https://messaging-socket-app-be.vercel.app');
+const socket = io('http://localhost:8080');
 
 const ChatPage = ({ token }) => {
   const [messages, setMessages] = useState([]);
@@ -10,7 +10,7 @@ const ChatPage = ({ token }) => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await axios.get('https://messaging-socket-app-be.vercel.app/api/v1/getmessages');
+      const res = await axios.get('http://localhost:8080/api/v1/getmessages');
       setMessages(res.data);
     };
 
@@ -33,6 +33,8 @@ const ChatPage = ({ token }) => {
   
     socket.on('disconnect', () => {
       console.log('Disconnected from server');
+      socket.connect();
+
     });
   
     socket.on('error', (error) => {
@@ -55,7 +57,7 @@ const ChatPage = ({ token }) => {
     };
 
     try {
-      await axios.post('https://messaging-socket-app-be.vercel.app/api/v1/sendMessage', newMsg, {
+      await axios.post('http://localhost:8080/api/v1/sendMessage', newMsg, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNewMessage('');
@@ -66,6 +68,12 @@ const ChatPage = ({ token }) => {
 
   return (
     <div className="container mx-auto">
+        <button onClick={()=> {
+          localStorage.clear();
+          socket.disconnect();
+          window.location.href = '/';
+        }} className='m-5 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700'> Logout </button>
+
       <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded">
         <h1 className="text-2xl mb-4">Chat</h1>
         <div className="overflow-y-scroll h-64 mb-4">
